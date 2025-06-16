@@ -37,3 +37,4 @@ export default App
 
 
 // git remote add origin https://github.com/bhawna-thoughtwin/language-learning.git
+//  git remote add origin git@github.com:bhawna-thoughtwin/Language_learning.git
