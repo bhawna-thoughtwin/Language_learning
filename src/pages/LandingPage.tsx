@@ -1,86 +1,92 @@
-// src// src/pages/LandingPage.tsx
 import * as React from 'react';
-import { Box, Button, Group, Title, Text } from '@mantine/core';
-import Header from '../components/Header';
+import { Box, Button, Flex, Title, Stack, Container } from '@mantine/core';
+import Header from '../layouts/Header';
 import AnimatedLogo from '../animatedlogo/AnimatedLogo';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const LandingPage = () => {
-    return (
-        <>
-            <Header />
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
-            {/* main content */}
-            <Box
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    minHeight: 'calc(100vh - 80px)',
-                    padding: '10rem',
-                }}
+  return (
+    <>
+      <Header />
+
+      <Container
+        size="lg"
+        px="md"
+        style={{ minHeight: 'calc(80vh - 80px)', marginTop: '250px' }}
+      >
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align="center"
+          gap="xl"
+          style={{ minHeight: '100%' }}
+        >
+          {/* Left Box */}
+          <Box
+            w={{ base: '100%', md: '40%' }}
+            p="md"
+            style={{
+              borderRadius: '8px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <AnimatedLogo />
+          </Box>
+
+          {/* Right Box */}
+          <Stack w={{ base: '100%', md: '50%' }} spacing="xl" align="center">
+            <Title
+              order={2}
+              align="center"
+              style={{ lineHeight: 1.1, color: '#4B4B4B' }}
             >
-                {/* Left side:  For animation picture */}
-                <Box
-                    style={{
-                        width: '50%',
-                        height: '400px',
-                        backgroundColor: '#f1f3f5',
-                        borderRadius: '8px',
-                        marginLeft: '180px'
-                    }}
-                >
-                    <AnimatedLogo />
-                    <AnimatedLogo />
-                    <AnimatedLogo />
-                </Box>
+              {t('landing.title.line1')}
+              <br />
+              <span style={{ display: 'inline-block', marginTop: '0.5rem' }}>
+                {t('landing.title.line2')}
+              </span>
+            </Title>
 
-                {/* Right side: Heading + Buttons */}
-                <Box style={{ width: '45%', height: '50%' }}>
-                    <Title order={2} mb="xs" style={{ lineHeight: 1.1, color: "#4B4B4B" }}>
-                        The free, fun, and effective way to
-                        <br />
-                        <span style={{ display: 'inline-block', marginTop: '-10px', marginLeft: '100px' }}>
-                            learn a language!
-                        </span>
-                    </Title>
-
-
-
-
-                    <Group direction="column" spacing="md">
-                        <Button
-                            size="lg"
-                            ml={60}
-                            w={330}
-                            radius="md"
-                            variant="gradient"
-                            gradient={{ from: 'green', to: 'lime', deg: 90 }}
-                        >
-                            Get Started
-                        </Button>
-                        <Button
-                            size="lg"
-                            w={330}
-                            ml={60}
-                            radius="md"
-                            variant="filled"  
-                            color="white"   
-                            styles={{
-                                root: {
-                                    backgroundColor: 'white',  
-                                    color: '#64b5f6',            
-                                    border: '1px solid grey',  
-                                },
-                            }}
-                        >
-                            I Already Have An Account
-                        </Button>
-
-                    </Group>
-                </Box>
-            </Box>
-        </>
-    );
+            <Stack spacing="md" align="center" w="100%">
+              <Button
+                size="lg"
+                radius="md"
+                variant="gradient"
+                gradient={{ from: 'green', to: 'lime', deg: 90 }}
+                w={{ base: '100%', sm: 300 }}
+                onClick={() => navigate("/language-selection", { replace: true })} 
+              >
+                {t('landing.getStarted')}
+              </Button>
+              <Button
+                size="lg"
+                radius="md"
+                variant="filled"
+                w={{ base: '100%', sm: 300 }}
+                onClick={() => navigate('/login')}
+                styles={{
+                  root: {
+                    backgroundColor: 'white',
+                    color: '#64b5f6',
+                    border: '1px solid grey',
+                  },
+                }}
+              >
+                {t('landing.alreadyHaveAccount')}
+              </Button>
+            </Stack>
+          </Stack>
+        </Flex>
+      </Container>
+    </>
+  );
 };
 
 export default LandingPage;
