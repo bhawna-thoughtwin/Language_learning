@@ -2,6 +2,7 @@
 import React from "react";
 import { Container, Title, Grid, Card, Text, Image } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface Language {
   name: string;
@@ -23,6 +24,7 @@ const languages: Language[] = [
 ];
 
 const LanguageSelection = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
   const handleClick = (language: Language) => {
     if (language.enabled) {
@@ -33,7 +35,7 @@ const LanguageSelection = () => {
   return (
     <Container size="md" py="xl">
       <Title align="center" mb="xl">
-        I want to learn...
+      {t('language.title')}
       </Title>
       <Grid>
         {languages.map((lang) => (

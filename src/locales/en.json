@@ -7,6 +7,10 @@
       },
       "getStarted": "Get Started",
       "alreadyHaveAccount": "I Already Have An Account"
+    },
+    "language":{
+      "title":"  I want to learn..."
+
     }
   }
   

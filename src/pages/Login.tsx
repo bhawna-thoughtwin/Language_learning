@@ -1,113 +1,165 @@
-import React from 'react';
+// Sidebar.tsx
+
+import React, { useState } from "react";
 import {
-    Container,
-    TextInput,
-    PasswordInput,
-    Button,
-    Stack,
-    Title,
-    Flex,
-    ActionIcon,
-} from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { IconX } from '@tabler/icons-react';
-import Header from '../layouts/Header';
+  Box,
+  NavLink,
+  Stack,
+  Image,
+  Popover,
+} from "@mantine/core";
+import {
+  IconHome,
+  IconLanguage,
+  IconShieldCheck,
+  IconDiamond,
+  IconShoppingCart,
+  IconUser,
+  IconDotsVertical,
+  IconSettings,
+  IconLogout,
+  IconLogin,
+  IconUserPlus,
+} from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-    const navigate = useNavigate();
+import { signOut } from "firebase/auth";
+import { auth } from "../assets/firebaseConfig";
 
-    return (
-        <>
-            <Container
-                size="xs"
-                px="md"
-                style={{
-                    minHeight: 'calc(100vh - 80px)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                {/* Top bar: Cross on left, Sign Up on right */}
-                <Flex
-                    justify="space-between"
-                    align="center"
-                    px={40}
-                    style={{
-                        position: 'absolute',
-                        top: 20,
-                        left: 10,
-                        right: 20,
-                    }}
-                >
+const Sidebar = () => {
+  const [active, setActive] = useState("LEARN");
+  const [moreOpened, setMoreOpened] = useState(false);
+  const navigate = useNavigate();
+  const user = auth.currentUser;
 
-                    <ActionIcon
-                        variant="subtle"
-                        color="gray"
-                        size="lg"
-                        onClick={() => navigate('/')}
-                    >
-                        <IconX size={50} />
-                    </ActionIcon>
+  const links = [
+    { label: "LEARN", icon: IconHome, path: "/learn" },
+    { label: "LETTERS", icon: IconLanguage, path: "/letters" },
+    { label: "LEADERBOARDS", icon: IconShieldCheck, path: "/leaderboards" },
+    { label: "QUESTS", icon: IconDiamond, path: "/quests" },
+    { label: "SHOP", icon: IconShoppingCart, path: "/shop" },
+    { label: "PROFILE", icon: IconUser, path: "/profile" },
+  ];
 
-                    <Button
-                        size="lg"
-                        variant="outline"
-                   
-                        onClick={() => navigate('/signup')}
-                    >
-                        Sign Up
-                    </Button>
-                </Flex>
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
 
-                {/* Login Form */}
-                <Stack spacing="md" w="80%">
-                    <Title order={2} align="center">
-                        Login
-                    </Title>
+  return (
+    <Box
+      style={{
+        width: 240,
+        height: "100vh",
+        backgroundColor: "#f9f9f9",
+        borderRight: "1px solid #ddd",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 20,
+      }}
+    >
+      {/* Logo */}
+      <Image
+        src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg"
+        alt="Duolingo Logo"
+        style={{ width: "130px", marginBottom: 40, marginTop: 30 }}
+      />
 
-                    <TextInput
-                        placeholder="Email"
-                        radius="md"
-                        required
-                        styles={{
-                            input: {
-                                padding: '25px 16px',
-                                backgroundColor: "#f5f5f5",
-                                '::placeholder': {
-                                    fontSize: '22px',
-                                    color: '#9e9e9e',
-                                },
-                            },
-                        }}
-                    />
+      {/* Nav Links */}
+      <Stack spacing="md" style={{ width: "80%" }}>
+        {links.map((link) => (
+          <NavLink
+            key={link.label}
+            label={link.label}
+            icon={<link.icon size={20} />}
+            active={active === link.label}
+            onClick={() => {
+              setActive(link.label);
+              navigate(link.path);
+            }}
+            styles={{
+              root: {
+                borderRadius: 10,
+                margin: "0 12px",
+              },
+              label: {
+                color: "#4B4B4B",
+                fontWeight: 650,
+                fontSize: "16px",
+              },
+            }}
+            variant={active === link.label ? "light" : "subtle"}
+          />
+        ))}
 
+        {/* MORE with hover Popover */}
+        <Popover
+          opened={moreOpened}
+          onClose={() => setMoreOpened(false)}
+          width={180}
+          position="right-start"
+          withArrow
+        >
+          <Popover.Target>
+            <NavLink
+              label="MORE"
+              icon={<IconDotsVertical size={20} />}
+              active={active === "MORE"}
+              onMouseEnter={() => {
+                setActive("MORE");
+                setMoreOpened(true);
+              }}
+              onMouseLeave={() => setMoreOpened(false)}
+              styles={{
+                root: {
+                  borderRadius: 10,
+                  margin: "0 12px",
+                },
+                label: {
+                  color: "#4B4B4B",
+                  fontWeight: 650,
+                  fontSize: "16px",
+                },
+              }}
+              variant={active === "MORE" ? "light" : "subtle"}
+            />
+          </Popover.Target>
 
-                    <PasswordInput
-                       placeholder="Password"
-                       radius="md"
-                       required
-                       styles={{
-                           input: {
-                               padding: '25px 16px',
-                               backgroundColor: "#f5f5f5",
-                               '::placeholder': {
-                                   fontSize: '22px',
-                                   color: '#9e9e9e',
-                               },
-                           },
-                       }}
-
-                    />
-
-                    <Button fullWidth size="lg" radius="md">
-                        Login
-                    </Button>
-                </Stack>
-
-            </Container>
-        </>
-    );
+          <Popover.Dropdown
+            onMouseEnter={() => setMoreOpened(true)}
+            onMouseLeave={() => setMoreOpened(false)}
+          >
+            <Box>
+              <NavLink
+                label="Create Profile"
+                icon={<IconUserPlus size={18} />}
+                onClick={() => navigate("/create-profile")}
+              />
+              <NavLink
+                label="Settings"
+                icon={<IconSettings size={18} />}
+                onClick={() => navigate("/settings")}
+              />
+              {user ? (
+                <NavLink
+                  label="Logout"
+                  icon={<IconLogout size={18} />}
+                  onClick={handleLogout}
+                />
+              ) : (
+                <NavLink
+                  label="Sign Up"
+                  icon={<IconLogin size={18} />}
+                  onClick={() => navigate("/signup")}
+                />
+              )}
+            </Box>
+          </Popover.Dropdown>
+        </Popover>
+      </Stack>
+    </Box>
+  );
 };
 
-export default LoginPage;
+export default Sidebar;

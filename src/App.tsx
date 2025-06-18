@@ -9,7 +9,10 @@ import WelcomePage from './pages/WelcomePage';
 import LanguageLevelPage from './pages/LanguageLevelPage';
 import MainLayout from './MainLayout/MainLayout';
 import Sidebar from './layouts/Sidebar';
-import Dashboard from './pages/Dashboard';
+
+import Letters from './pages/Letters';
+import LeaderBoard from './pages/LeaderBoard';
+import ContentPage from './pages/ContentPage';
 
 const App = () => (
   <Router>
@@ -24,7 +27,9 @@ const App = () => (
 
       {/* Sidebar layout */}
       <Route element={<MainLayout />}>
-      <Route path="/learn" element={<Dashboard />} /> 
+      <Route path="/learn" element={<ContentPage />} /> 
+      <Route path="/letters" element={<Letters/>}/>
+      <Route path="/lederboards" element={<LeaderBoard/>} />
 
       </Route>
     </Routes>

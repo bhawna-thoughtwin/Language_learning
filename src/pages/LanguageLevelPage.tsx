@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Container, Title, Paper } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
+import bird from "../assets/bird.svg";
 
 const LanguageLevelPage = () => {
   const { language } = useParams();
@@ -20,10 +21,10 @@ const LanguageLevelPage = () => {
   };
 
     return (
-        <Container size="sm" style={{ textAlign: "center", marginTop: 80 }}>
+        <Container size="sm" style={{ textAlign: "center", marginTop: 20 }}>
             {/* Duolingo owl image & speech bubble */}
             <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Duolingo_logo.svg/2560px-Duolingo_logo.svg.png"
+                src={bird}
                 alt="Owl"
                 width={80}
             />
