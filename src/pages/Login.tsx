@@ -1,165 +1,125 @@
-// Sidebar.tsx
-
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import {
-  Box,
-  NavLink,
+  Container,
+  TextInput,
+  PasswordInput,
+  Button,
   Stack,
-  Image,
-  Popover,
+  Title,
+  Flex,
+  ActionIcon,
 } from "@mantine/core";
-import {
-  IconHome,
-  IconLanguage,
-  IconShieldCheck,
-  IconDiamond,
-  IconShoppingCart,
-  IconUser,
-  IconDotsVertical,
-  IconSettings,
-  IconLogout,
-  IconLogin,
-  IconUserPlus,
-} from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-
-import { signOut } from "firebase/auth";
+import { IconX } from "@tabler/icons-react";
 import { auth } from "../assets/firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-const Sidebar = () => {
-  const [active, setActive] = useState("LEARN");
-  const [moreOpened, setMoreOpened] = useState(false);
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
-  const user = auth.currentUser;
 
-  const links = [
-    { label: "LEARN", icon: IconHome, path: "/learn" },
-    { label: "LETTERS", icon: IconLanguage, path: "/letters" },
-    { label: "LEADERBOARDS", icon: IconShieldCheck, path: "/leaderboards" },
-    { label: "QUESTS", icon: IconDiamond, path: "/quests" },
-    { label: "SHOP", icon: IconShoppingCart, path: "/shop" },
-    { label: "PROFILE", icon: IconUser, path: "/profile" },
-  ];
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
+  const handleSignin = async () => {
+    try {
+      setError("");
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login successful:", userCredential.user);
+      navigate("/learn");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message);
+    }
   };
 
   return (
-    <Box
+    <Container
+      size="xs"
+      px="md"
       style={{
-        width: 240,
-        height: "100vh",
-        backgroundColor: "#f9f9f9",
-        borderRight: "1px solid #ddd",
+        minHeight: "calc(100vh - 80px)",
         display: "flex",
-        flexDirection: "column",
+        justifyContent: "center",
         alignItems: "center",
-        paddingTop: 20,
       }}
     >
-      {/* Logo */}
-      <Image
-        src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg"
-        alt="Duolingo Logo"
-        style={{ width: "130px", marginBottom: 40, marginTop: 30 }}
-      />
+      {/* Top bar: Cross on left, Sign Up on right */}
+      <Flex
+        justify="space-between"
+        align="center"
+        px={40}
+        style={{
+          position: "absolute",
+          top: 20,
+          left: 10,
+          right: 20,
+        }}
+      >
+        <ActionIcon variant="subtle" color="gray" size="lg" onClick={() => navigate("/")}>
+          <IconX size={50} />
+        </ActionIcon>
+        <Button size="lg" variant="outline" onClick={() => navigate("/signup")}>
+          Sign Up
+        </Button>
+      </Flex>
 
-      {/* Nav Links */}
-      <Stack spacing="md" style={{ width: "80%" }}>
-        {links.map((link) => (
-          <NavLink
-            key={link.label}
-            label={link.label}
-            icon={<link.icon size={20} />}
-            active={active === link.label}
-            onClick={() => {
-              setActive(link.label);
-              navigate(link.path);
-            }}
-            styles={{
-              root: {
-                borderRadius: 10,
-                margin: "0 12px",
+      {/* Login Form */}
+      <Stack spacing="md" w="80%">
+        <Title order={2} align="center">
+          Login
+        </Title>
+
+        <TextInput
+          placeholder="Email"
+          radius="md"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+          styles={{
+            input: {
+              padding: "25px 16px",
+              backgroundColor: "#f5f5f5",
+              "::placeholder": {
+                fontSize: "22px",
+                color: "#9e9e9e",
               },
-              label: {
-                color: "#4B4B4B",
-                fontWeight: 650,
-                fontSize: "16px",
+            },
+          }}
+        />
+
+        <PasswordInput
+          placeholder="Password"
+          radius="md"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+          styles={{
+            input: {
+              padding: "25px 16px",
+              backgroundColor: "#f5f5f5",
+              "::placeholder": {
+                fontSize: "22px",
+                color: "#9e9e9e",
               },
-            }}
-            variant={active === link.label ? "light" : "subtle"}
-          />
-        ))}
+            },
+          }}
+        />
 
-        {/* MORE with hover Popover */}
-        <Popover
-          opened={moreOpened}
-          onClose={() => setMoreOpened(false)}
-          width={180}
-          position="right-start"
-          withArrow
-        >
-          <Popover.Target>
-            <NavLink
-              label="MORE"
-              icon={<IconDotsVertical size={20} />}
-              active={active === "MORE"}
-              onMouseEnter={() => {
-                setActive("MORE");
-                setMoreOpened(true);
-              }}
-              onMouseLeave={() => setMoreOpened(false)}
-              styles={{
-                root: {
-                  borderRadius: 10,
-                  margin: "0 12px",
-                },
-                label: {
-                  color: "#4B4B4B",
-                  fontWeight: 650,
-                  fontSize: "16px",
-                },
-              }}
-              variant={active === "MORE" ? "light" : "subtle"}
-            />
-          </Popover.Target>
+        {/* Show error message if exists */}
+        {error && (
+          <Title order={5} color="red" align="center">
+            {error}
+          </Title>
+        )}
 
-          <Popover.Dropdown
-            onMouseEnter={() => setMoreOpened(true)}
-            onMouseLeave={() => setMoreOpened(false)}
-          >
-            <Box>
-              <NavLink
-                label="Create Profile"
-                icon={<IconUserPlus size={18} />}
-                onClick={() => navigate("/create-profile")}
-              />
-              <NavLink
-                label="Settings"
-                icon={<IconSettings size={18} />}
-                onClick={() => navigate("/settings")}
-              />
-              {user ? (
-                <NavLink
-                  label="Logout"
-                  icon={<IconLogout size={18} />}
-                  onClick={handleLogout}
-                />
-              ) : (
-                <NavLink
-                  label="Sign Up"
-                  icon={<IconLogin size={18} />}
-                  onClick={() => navigate("/signup")}
-                />
-              )}
-            </Box>
-          </Popover.Dropdown>
-        </Popover>
+        <Button fullWidth size="lg" radius="md" onClick={handleSignin}>
+          Login
+        </Button>
       </Stack>
-    </Box>
+    </Container>
   );
 };
 
-export default Sidebar;
+export default LoginPage;

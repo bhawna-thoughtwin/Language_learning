@@ -4,6 +4,7 @@ import Header from '../layouts/Header';
 import AnimatedLogo from '../animatedlogo/AnimatedLogo';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Animation2 from '../animatedlogo/Animation2';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,8 @@ const LandingPage = () => {
               flexDirection: 'column',
             }}
           >
-            <AnimatedLogo />
+            {/* <AnimatedLogo />
+            <Animation2/> */}
           </Box>
 
           {/* Right Box */}

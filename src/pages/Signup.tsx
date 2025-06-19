@@ -27,7 +27,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const location = useLocation();
-  const from = location.state?.from || "/content";
+  const from = location.state?.from || "/";
 
 
   const handleSignup = async () => {

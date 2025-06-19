@@ -7,7 +7,7 @@ import './i18n';
 import { AuthProvider } from './context/userAuthContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+
    <AuthProvider>
    <MantineProvider defaultColorScheme="light"  theme={{
         fontFamily: 'DIN Round, sans-serif',
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
     </MantineProvider>
    </AuthProvider>
-  </React.StrictMode>
+
 );

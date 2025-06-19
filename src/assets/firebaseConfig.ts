@@ -7,7 +7,7 @@ import {getFirestore} from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCl_z4zDWh5iAv0_Gnzl_AfogVcohoMZqw",
   authDomain: import.meta.env.VITE_AUTHDOMAIN,
-  projectId:import.meta.env.VITE_PROJECTID,
+  projectId:"language-learning-72d7a",
   storageBucket:import.meta.env.VITE_STORAGEBUCKET,
   messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
   appId: import.meta.env.VITE_APPID
