@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'DIN Round';
+    src: url('/src/assets/fonts/DINRoundPro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body {
+    font-family: 'DIN Round', sans-serif;
+  }
+  

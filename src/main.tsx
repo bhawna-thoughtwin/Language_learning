@@ -1,10 +1,19 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import * as  React from 'react';
+import * as  ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import './i18n';
+import { AuthProvider } from './context/userAuthContext.tsx';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+   <AuthProvider>
+   <MantineProvider defaultColorScheme="light"  theme={{
+        fontFamily: 'DIN Round, sans-serif',
+      }}>
+      <App />
+    </MantineProvider>
+   </AuthProvider>
+  </React.StrictMode>
+);

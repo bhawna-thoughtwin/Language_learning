@@ -1,40 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
+import SignupPage from './pages/Signup';
+import LanguageSelection from './pages/LanguageSelectionPage';
+import WelcomePage from './pages/WelcomePage';
+import LanguageLevelPage from './pages/LanguageLevelPage';
+import MainLayout from './MainLayout/MainLayout';
+import Sidebar from './layouts/Sidebar';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Letters from './pages/Letters';
+import LeaderBoard from './pages/LeaderBoard';
+import ContentPage from './pages/ContentPage';
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App = () => (
+  <Router>
+    <Routes>
+      {/* No sidebar */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/language-selection" element={<LanguageSelection />} />
+      <Route path="/welcome/:language" element={<WelcomePage />} />
+      
 
-export default App
+      {/* Sidebar layout */}
+      <Route element={<MainLayout />}>
+      <Route path="/learn" element={<ContentPage />} /> 
+      <Route path="/letters" element={<Letters/>}/>
+      <Route path="/lederboards" element={<LeaderBoard/>} />
 
+      </Route>
+    </Routes>
+  </Router>
+);
 
-
-// git remote add origin https://github.com/bhawna-thoughtwin/language-learning.git
-//  git remote add origin git@github.com:bhawna-thoughtwin/Language_learning.git
+export default App;
