@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import bird3 from "../assets/bird3.svg";
+import hellobird from "../assets/hellobird.webp";
 
 const Animation2 = () => {
     return (
         <motion.img
-            src={bird3}
-            style={{ width: 120 }}
+            src={hellobird}
+            style={{ width: 180 }}
             animate={{
                 y: [0, -20, 0], // up & down
             }}

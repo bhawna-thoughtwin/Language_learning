@@ -13,6 +13,9 @@ import Sidebar from './layouts/Sidebar';
 import Letters from './pages/Letters';
 import LeaderBoard from './pages/LeaderBoard';
 import ContentPage from './pages/ContentPage';
+import LessonPage from './pages/LessonPage';
+import Profile from './pages/Profile';
+import Setting from './pages/Setting';
 
 const App = () => (
   <Router>
@@ -28,8 +31,13 @@ const App = () => (
       {/* Sidebar layout */}
       <Route element={<MainLayout />}>
       <Route path="/learn" element={<ContentPage />} /> 
+      <Route path="/lesson/:lessonId" element={<LessonPage />} />
+      <Route path="/profile" element={<Profile/>}/>
+
       <Route path="/letters" element={<Letters/>}/>
-      <Route path="/lederboards" element={<LeaderBoard/>} />
+      <Route path="/leaderboards" element={<LeaderBoard/>} />
+      <Route path="settings" element={<Setting />} />
+    
 
       </Route>
     </Routes>

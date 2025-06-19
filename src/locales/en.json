@@ -11,6 +11,12 @@
     "language":{
       "title":"  I want to learn..."
 
+    },
+    "welcome":{
+      "title":"Welcome to Duolingo!",
+      "title2":"You selected:"
+
     }
+    
   }
   

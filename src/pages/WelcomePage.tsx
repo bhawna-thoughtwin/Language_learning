@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ActionIcon, Box, Button, Container, Modal, Title, Stack, rem } from "@mantine/core";
 import { motion } from "framer-motion";
 import { IconArrowLeft } from "@tabler/icons-react";
 import LanguageLevelPage from "./LanguageLevelPage";
 import hellobird from "../assets/hellobird.webp";
+import { useLanguageStore } from "../store/useLanguageStore";
+import { t } from "i18next";
 
 const WelcomePage = () => {
   const { language } = useParams();
   const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   const handleContinue = () => {
     setOpened(true);
@@ -19,6 +22,11 @@ const WelcomePage = () => {
     setOpened(false);
     navigate("/learn");
   };
+  useEffect(() => {
+    if (language) {
+      setLanguage(language);
+    }
+  }, [language, setLanguage]);
 
   return (
     <Container
@@ -44,7 +52,7 @@ const WelcomePage = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <Title order={2}>🎉 Welcome to Duolingo! 🎉</Title>
+          <Title order={2}>  {t('welcome.title')}</Title>
         </motion.div>
 
         <motion.div
@@ -52,7 +60,7 @@ const WelcomePage = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          <Title order={4}>You selected: {language?.toUpperCase()}</Title>
+          <Title order={4}>{t('welcome.title2')}:{language?.toUpperCase()}</Title>
         </motion.div>
 
         <Box>
