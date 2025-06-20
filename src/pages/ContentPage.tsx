@@ -1,72 +1,262 @@
-import React from "react";
-import { Box, Button, Container, Loader, Title, Stack, Paper, Group } from "@mantine/core";
-import { useCourseContent } from "../hooks/useCourseContent";
-import { IconBook, IconNotebook, IconCheck } from "@tabler/icons-react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Loader,
+  Title,
+  ActionIcon,
+  Stack,
+  Paper,
+  Popover
+} from "@mantine/core";
+import { IconArrowBack } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { useCourseContent } from "../hooks/useCourseContent";
+import star from "../assets/star.svg";
+import troffi from "../assets/troffi.svg";
+import giftbox from "../assets/giftbox.svg";
+import whitestar from "../assets/whitestar.svg";
+import hellobird from "../assets/hellobird.webp";
 
 const ContentPage = () => {
   const { sections, loading } = useCourseContent();
+ 
+  const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
+
+  const handleStart = () => {
+    navigate('/lesson/1'); 
+  };
 
   if (loading) {
     return (
       <Container size="md" style={{ textAlign: "center", marginTop: "100px" }}>
-        <Loader size="lg" color="green" />
+        <Loader size="lg" color="blue" />
       </Container>
     );
   }
 
+
+  const section = sections[0];
+
   return (
-    <Container size="md" py="xl">
-      <Title order={2} mb="lg" style={{ color: "#58cc02", textAlign: "center" }}>
-        📚 Your Hindi Course
-      </Title>
+    <>
+      <Container size="sm" py="xl">
+        <Paper
+          shadow="md"
+          p="lg"
+          radius="lg"
+          style={{
+            backgroundColor: "#e8f5e9",
+          }}
+        >
 
-      <Stack>
-        {sections.map((section, index) => (
-          <motion.div
-            key={section.id}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
+          <ActionIcon
+            variant="subtle"
+            size="lg"
+            onClick={() => navigate(-1)}
+            mb="md"
           >
-            <Paper shadow="md" p="md" mb="lg" radius="lg" withBorder>
-              <Title order={3} style={{ color: "#388e3c" }} mb="sm">
-                <IconBook style={{ marginRight: 8 }} /> {section.name}
-              </Title>
+            <IconArrowBack size={24} />
+          </ActionIcon>
 
-              {section.units.map((unit, uidx) => (
-                <Box key={unit.id} ml="md" mb="md">
-                  <Title order={4} style={{ color: "#4caf50" }} mb="xs">
-                    <IconNotebook style={{ marginRight: 8 }} /> {unit.name}
-                  </Title>
+          {/* Section Name */}
+          <Title order={3} mb="md" style={{ color: "#4caf50" }}>
+            {section.name}
+          </Title>
 
-                  <Group spacing="sm">
-                    {unit.lessons.map((lesson) => (
-                      <Button
-                        key={lesson.id}
-                        variant="light"
-                        color="green"
-                        radius="md"
-                        size="md"
-                        component={motion.button}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        leftIcon={<IconCheck />}
-                        onClick={() => navigate(`/lesson/${lesson.id}`)}
-                      >
-                        {lesson.name}
-                      </Button>
-                    ))}
-                  </Group>
-                </Box>
-              ))}
-            </Paper>
-          </motion.div>
-        ))}
-      </Stack>
-    </Container>
+          {/* Lessons */}
+          <Stack spacing="md">
+            {section.units.flatMap((unit) =>
+              unit.lessons.map((lesson) => (
+                <Button
+                  key={lesson.id}
+                  variant="filled"
+                  color="green"
+                  radius="md"
+                  size="md"
+                  fullWidth
+                  onClick={() => navigate(`/lesson/${lesson.id}`)}
+                >
+                  {lesson.name}
+                </Button>
+              ))
+            )}
+          </Stack>
+        </Paper>
+      </Container>
+      <Container size="sm" py="xl">
+        <Stack spacing="md" direction="row">
+          {/* First image with background */}
+          <Popover
+            opened={opened}
+            onChange={setOpened}
+            position="bottom"
+            withArrow
+            shadow="md"
+          >
+            <Popover.Target>
+              <Box
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  backgroundColor: '#58cc02',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: '170px',
+                  cursor: 'pointer', // 👈 makes it clear it's clickable
+                }}
+                onClick={() => setOpened((o) => !o)}
+              >
+                <img
+                  src={whitestar}
+                  alt="star"
+                  style={{
+                    width: '50%',
+                    height: '50%',
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                  }}
+                />
+              </Box>
+            </Popover.Target>
+
+            <Popover.Dropdown>
+           
+              <Button
+                color="#52c002"
+                fullWidth
+                onClick={handleStart}
+              >
+                Start
+              </Button>
+            </Popover.Dropdown>
+          </Popover>
+
+          {/* Second image with same background */}
+          <Box
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              backgroundColor: '#f0f0f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: "140px"
+            }}
+          >
+            <img
+              src={star}
+              alt="Image 2"
+              style={{
+                width: '50%',
+                height: '50%',
+                objectFit: 'cover',
+                borderRadius: '50%',
+              }}
+            />
+          </Box>
+
+          {/* Third image with same background */}
+          <Box style={{ position: 'relative', marginLeft: '120px' }}>
+            {/* Main circle with star */}
+            <Box
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: '50%',
+                backgroundColor: '#f0f0f0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+              }}
+            >
+              <img
+                src={star}
+                alt="Star"
+                style={{
+                  width: '50%',
+                  height: '50%',
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                }}
+              />
+              <img
+                src={hellobird}
+                alt="Bird"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: 'calc(100% + 180px)', // <-- add gap here
+                  transform: 'translateY(-50%)',
+                  width: 210,
+                  height: 170,
+                }}
+              />
+            </Box>
+
+
+
+          </Box>
+          <Box
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              backgroundColor: '#f0f0f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: "140px"
+            }}
+          >
+            <img
+              src={giftbox}
+              alt="Image 3"
+              style={{
+                width: '50%',
+                height: '50%',
+                objectFit: 'cover',
+                borderRadius: '50%',
+              }}
+            />
+          </Box>
+
+          {/* Fourth image with same background */}
+          <Box
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              backgroundColor: '#f0f0f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: "170px"
+            }}
+          >
+            <img
+              src={troffi}
+              alt="Image 4"
+              style={{
+                width: '50%',
+                height: '50%',
+                objectFit: 'cover',
+                borderRadius: '50%',
+              }}
+            />
+          </Box>
+        </Stack>
+
+      </Container>
+
+
+    </>
   );
 };
 

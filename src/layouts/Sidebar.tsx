@@ -18,6 +18,7 @@ import profileicon from "../assets/profileicon.svg";
 import shop from "../assets/shop.svg";
 import quests from "../assets/quests.svg";
 import moreIcon from "../assets/more.svg";
+import letters from "../assets/letters.svg";
 
 const Sidebar = () => {
   const [active, setActive] = useState("");
@@ -27,6 +28,8 @@ const Sidebar = () => {
 
   const links = [
     { label: "LEARN", image: homeicon, path: "/learn" },
+    { label: "LETTERS", image: letters, path: "/letters" },
+
     { label: "QUESTS", image: quests, path: "/quests" },
     { label: "SHOP", image: shop, path: "/shop" },
     { label: "PROFILE", image: profileicon, path: "/profile" },
@@ -53,6 +56,9 @@ const Sidebar = () => {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 20,
+        position: "fixed",
+
+     
       }}
     >
 
@@ -72,7 +78,7 @@ const Sidebar = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  border: active === link.label ? "2px solid rgb(13, 134, 182)" : "none",
+                  border: active === link.label ? "2px solid rgb(149, 209, 233)" : "none",
                   borderRadius: "8px",
                   padding: "8px 12px",
                   gap: "12px",
@@ -90,7 +96,7 @@ const Sidebar = () => {
 
                 {/* RIGHT: Text */}
                 <Box style={{ flexGrow: 1 }}>
-                  <Text size="md" color="#4B4B4B" fw={600} style={{ lineHeight: 1 }}>
+                  <Text size="md" color="#757575" fw={600} style={{ lineHeight: 1 ,  color: active === link.label ? "rgb(66, 190, 240)" : "#757575",}}>
                     {link.label}
                   </Text>
                 </Box>
@@ -105,7 +111,7 @@ const Sidebar = () => {
               root: {
                 borderRadius: 10,
                 margin: "0 12px",
-                padding: 0, // all padding done inside label Box
+                padding: 0, 
               },
             }}
             variant={active === link.label ? "light" : "subtle"}
@@ -122,10 +128,11 @@ const Sidebar = () => {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    border: active === "MORE" ? "2px solid rgb(13, 134, 182)" : "none",
+                    border: active === "MORE" ? "2px solid  rgb(149, 209, 233)" : "none",
                     borderRadius: "8px",
                     padding: "8px 12px",
                     gap: "12px",
+         
                   }}
                 >
                   {/* LEFT: Image */}
@@ -140,7 +147,7 @@ const Sidebar = () => {
 
                   {/* RIGHT: Text */}
                   <Box style={{ flexGrow: 1 }}>
-                    <Text size="md" color="#4B4B4B" fw={600} style={{ lineHeight: 1 }}>
+                    <Text size="md" color="#757575" fw={600} style={{ lineHeight: 1 }}>
                       MORE
                     </Text>
                   </Box>
@@ -152,7 +159,7 @@ const Sidebar = () => {
                 root: {
                   borderRadius: 10,
                   margin: "0 12px",
-                  padding: 0, // same as others: no padding on root, only on custom box
+                  padding: 0,
                 },
               }}
               variant={active === "MORE" ? "light" : "subtle"}
