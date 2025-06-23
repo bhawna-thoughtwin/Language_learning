@@ -6,6 +6,7 @@ import {
     Title,
     Paper,
     Divider,
+    Image,
 } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import bird from "../assets/bird.svg";
@@ -23,6 +24,14 @@ const LanguageLevelPage = () => {
         "I can talk about various topics",
         "I can discuss most topics in detail",
     ];
+    // const images=[
+    //     "/assests/network0.svg",
+    //     "/assests/network1.svg",
+    //     "/assests/network2.svg",
+    //     "/assests/network3.svg",
+    //     "/assests/network4.svg",
+
+    // ]
 
     const handleContinue = () => {
         navigate("/learn");
@@ -70,6 +79,8 @@ const LanguageLevelPage = () => {
             </Box>
 
             {/* Level options */}
+
+
             <Box mt="xl" mb="xl">
                 {levels.map((level, index) => (
                     <React.Fragment key={index}>
@@ -92,6 +103,7 @@ const LanguageLevelPage = () => {
                     </React.Fragment>
                 ))}
             </Box>
+
 
             {/* Continue button */}
             <Box

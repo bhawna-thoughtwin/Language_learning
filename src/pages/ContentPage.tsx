@@ -8,7 +8,8 @@ import {
   ActionIcon,
   Stack,
   Paper,
-  Popover
+  Popover,
+  Group, 
 } from "@mantine/core";
 import { IconArrowBack } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
@@ -18,16 +19,23 @@ import troffi from "../assets/troffi.svg";
 import giftbox from "../assets/giftbox.svg";
 import whitestar from "../assets/whitestar.svg";
 import hellobird from "../assets/hellobird.webp";
+import { useLanguageStore } from "../store/useLanguageStore";
+
 
 const ContentPage = () => {
   const { sections, loading } = useCourseContent();
- 
+
   const [opened, setOpened] = useState(false);
   const navigate = useNavigate();
+  const setLesson = useLanguageStore((state) => state.setLesson);
+ 
 
   const handleStart = () => {
-    navigate('/lesson/1'); 
+    setLesson("lesson-1"); 
+    navigate('/lesson');
   };
+ 
+  
 
   if (loading) {
     return (
@@ -36,7 +44,13 @@ const ContentPage = () => {
       </Container>
     );
   }
-
+  if (!sections) {
+    return (
+      <Container size="md" style={{ textAlign: "center", marginTop: "100px" }}>
+        <Title>No section found</Title>
+      </Container>
+    );
+  }
 
   const section = sections[0];
 
@@ -52,22 +66,26 @@ const ContentPage = () => {
           }}
         >
 
-          <ActionIcon
-            variant="subtle"
-            size="lg"
-            onClick={() => navigate(-1)}
-            mb="md"
-          >
-            <IconArrowBack size={24} />
-          </ActionIcon>
+      
+          <Group mb="md" style={{ cursor: "pointer" }} onClick={() => navigate("/sections")}>
+            <ActionIcon
+              variant="subtle"
+              size="lg"
+            >
+              <IconArrowBack size={24} />
+            </ActionIcon>
+            <Title order={5} style={{ marginLeft: "4px", color: "#4caf50" }}>
+              {section.type}
+            </Title>
+          </Group>
 
           {/* Section Name */}
-          <Title order={3} mb="md" style={{ color: "#4caf50" }}>
+          {/* <Title order={3} mb="md" style={{ color: "#4caf50" }}>
             {section.name}
-          </Title>
+          </Title> */}
 
           {/* Lessons */}
-          <Stack spacing="md">
+          {/* <Stack spacing="md">
             {section.units.flatMap((unit) =>
               unit.lessons.map((lesson) => (
                 <Button
@@ -83,7 +101,7 @@ const ContentPage = () => {
                 </Button>
               ))
             )}
-          </Stack>
+          </Stack> */}
         </Paper>
       </Container>
       <Container size="sm" py="xl">
@@ -107,7 +125,7 @@ const ContentPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginLeft: '170px',
-                  cursor: 'pointer', // 👈 makes it clear it's clickable
+                  cursor: 'pointer',
                 }}
                 onClick={() => setOpened((o) => !o)}
               >
@@ -125,7 +143,6 @@ const ContentPage = () => {
             </Popover.Target>
 
             <Popover.Dropdown>
-           
               <Button
                 color="#52c002"
                 fullWidth
@@ -136,7 +153,7 @@ const ContentPage = () => {
             </Popover.Dropdown>
           </Popover>
 
-          {/* Second image with same background */}
+          {/* Second image */}
           <Box
             style={{
               width: 80,
@@ -161,9 +178,8 @@ const ContentPage = () => {
             />
           </Box>
 
-          {/* Third image with same background */}
+          {/* Third image with bird */}
           <Box style={{ position: 'relative', marginLeft: '120px' }}>
-            {/* Main circle with star */}
             <Box
               style={{
                 width: 80,
@@ -192,17 +208,16 @@ const ContentPage = () => {
                 style={{
                   position: 'absolute',
                   top: '50%',
-                  left: 'calc(100% + 180px)', // <-- add gap here
+                  left: 'calc(100% + 180px)',
                   transform: 'translateY(-50%)',
                   width: 210,
                   height: 170,
                 }}
               />
             </Box>
-
-
-
           </Box>
+
+          {/* Fourth image */}
           <Box
             style={{
               width: 80,
@@ -227,7 +242,7 @@ const ContentPage = () => {
             />
           </Box>
 
-          {/* Fourth image with same background */}
+          {/* Fifth image */}
           <Box
             style={{
               width: 80,
@@ -252,10 +267,7 @@ const ContentPage = () => {
             />
           </Box>
         </Stack>
-
       </Container>
-
-
     </>
   );
 };

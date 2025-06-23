@@ -8,11 +8,11 @@ import { AuthProvider } from "./context/userAuthContext.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+
     <AuthProvider>
       <ThemeProvider>
         <App />
       </ThemeProvider>
     </AuthProvider>
-  </React.StrictMode>
+  
 );

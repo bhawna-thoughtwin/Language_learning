@@ -56,11 +56,14 @@ const Sidebar = () => {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 20,
-        position: "fixed",
+  
 
      
       }}
     >
+      
+
+
 
       <MantineImage
         src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg"
