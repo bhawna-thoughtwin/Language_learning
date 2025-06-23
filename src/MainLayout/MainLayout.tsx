@@ -6,9 +6,15 @@ import { Box } from "@mantine/core";
 
 const MainLayout = () => {
   return (
-    <Box style={{ display: "flex" }}>
+ 
+    <Box style={{ display: "flex",height: "100vh" }}>
       <Sidebar />
-      <Box style={{ flex: 1, padding: 20 }}>
+      <Box style={{
+      flex: 1,
+      height: "100%",          
+      overflowY: "auto",      
+      padding: 20,
+    }}>
         <Outlet /> {/* This renders child routes */}
       </Box>
     </Box>

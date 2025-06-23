@@ -60,7 +60,7 @@ const WelcomePage = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          <Title order={4}>{t('welcome.title2')}:{language?.toUpperCase()}</Title>
+          <Title order={4}>{t('welcome.title2')}{language?.toUpperCase()}</Title>
         </motion.div>
 
         <Box>

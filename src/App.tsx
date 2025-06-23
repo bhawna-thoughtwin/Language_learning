@@ -19,9 +19,11 @@ import ContentPage from "./pages/ContentPage";
 
 import Profile from "./pages/Profile";
 import Setting from "./pages/Setting";
+import SectionsPage from "./pages/SectionPage";
+import LessonPage from "./pages/LessonPage";
 
 const App = () => {
-  // 👇 get theme from context
+
   const { theme } = useTheme();
 
   return (
@@ -41,17 +43,20 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/language-selection" element={<LanguageSelection />} />
           <Route path="/welcome/:language" element={<WelcomePage />} />
+          <Route path="/lesson" element={<LessonPage />} />
 
           {/* Sidebar layout */}
           <Route element={<MainLayout />}>
             <Route path="/learn" element={<ContentPage />} />
-            {/* <Route path="/lesson/:lessonId" element={<LessonPage />} /> */}
+           
             <Route path="/profile" element={<Profile />} />
             <Route path="/letters" element={<Letters />} />
             <Route path="/leaderboards" element={<LeaderBoard />} />
             <Route path="/settings" element={<Setting />} />
+            <Route path="/sections" element={<SectionsPage/>}/>
             {/* <Route path="/lesson" element={<LessonPage2 />} /> */}
           </Route>
+    
         </Routes>
       </Router>
     </MantineProvider>
