@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+// src/pages/Setting.tsx
 import { Box, Title, Select, Stack, rem } from "@mantine/core";
+import { useThemeStore } from "../store/useThemeStore";
 
 const Setting = () => {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const colorScheme = useThemeStore((s) => s.colorScheme);
+  const setColorScheme = useThemeStore((s) => s.setColorScheme);
 
   return (
     <Box p="lg" mx="auto" style={{ maxWidth: 400 }}>
@@ -19,35 +21,12 @@ const Setting = () => {
             { value: "light", label: "Light Mode" },
             { value: "dark", label: "Dark Mode" },
           ]}
-          value={mode}
-          onChange={(value) => setMode(value as "light" | "dark")}
-          styles={{
-            label: {
-              fontSize: rem(18),
-              fontWeight: 600,
-              marginBottom: rem(6),
-            },
-            input: {
-              fontSize: rem(16),
-              borderColor: "rgb(13, 134, 182)",
-            },
+          value={colorScheme}
+          onChange={(value) => {
+            if (value === "light" || value === "dark") {
+              setColorScheme(value);
+            }
           }}
-     
-          withinPortal
-          itemComponent={({ data, ...others }) => (
-            <div
-              {...others}
-              style={{
-                padding: "8px 12px",
-                backgroundColor:
-                  data.value === mode ? "rgb(13, 134, 182)" : "transparent",
-                color: data.value === mode ? "#fff" : "#000",
-                cursor: "pointer",
-              }}
-            >
-              {data.label}
-            </div>
-          )}
         />
       </Stack>
     </Box>

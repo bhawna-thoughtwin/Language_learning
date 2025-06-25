@@ -16,96 +16,95 @@ import {
   ActionIcon,
   Flex,
   Image,
+  Container
 } from "@mantine/core";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { IconVolume2, IconX } from "@tabler/icons-react";
 import heart from "../assets/heart.svg";
+import bird6 from "../assets/bird6.svg";
 
-
-/*Reusable MultipleChoice component */
+/* Reusable MultipleChoice component */
 const MultipleChoice = ({ content, onAnswer, selected, withLetter }) => {
-    const speakLetter = (letter) => {
-      const utterance = new SpeechSynthesisUtterance(letter);
-      // Optional: set voice/lang here if needed:
-      // utterance.lang = "hi-IN";
-      speechSynthesis.speak(utterance);
-    };
-  
-    const letter = content.letter;
-  
-    return (
-      <Box>
-        <Title order={3} style={{ fontSize: 40, marginBottom: 20 }}>
-          {content.prompt}
-        </Title>
-  
-        <Flex gap="xl" align="flex-start">
-          {withLetter && (
-            <Flex direction="column" align="center">
-              <Title order={1} style={{ fontSize: 120 }}>
-                {letter}
-              </Title>
-  
-              <ActionIcon
-                variant="filled"
-                color="blue"
-                size="lg"
-                onClick={() => speakLetter(letter)}
-                mt="md"
-              >
-                <IconVolume2 size={24} />
-              </ActionIcon>
-            </Flex>
-          )}
-  
-          <Stack>
-            {content.options.map((opt) => (
-              <Button
-                key={opt}
-                onClick={() => onAnswer(opt)}
-                variant={selected === opt ? "filled" : "light"}
-                fullWidth
-              >
-                {opt}
-              </Button>
-            ))}
-          </Stack>
-        </Flex>
-      </Box>
-    );
+  const speakLetter = (letter) => {
+    const utterance = new SpeechSynthesisUtterance(letter);
+    speechSynthesis.speak(utterance);
   };
-  
 
+  const letter = content.letter;
+
+  return (
+    <Box>
+      <Title order={3} style={{ fontSize: 40, marginBottom: 20 }}>
+        {content.prompt}
+      </Title>
+
+      <Flex gap="xl" align="flex-start">
+        {withLetter && (
+          <Flex direction="column" align="center">
+            <Title order={1} style={{ fontSize: 120 }}>
+              {letter}
+            </Title>
+
+            <ActionIcon
+              variant="filled"
+              color="blue"
+              size="lg"
+              onClick={() => speakLetter(letter)}
+              mt="md"
+            >
+              <IconVolume2 size={24} />
+            </ActionIcon>
+          </Flex>
+        )}
+
+        <Stack>
+          {content.options.map((opt) => (
+            <Button
+              key={opt}
+              onClick={() => onAnswer(opt)}
+              variant={selected === opt ? "filled" : "light"}
+              fullWidth
+            >
+              {opt}
+            </Button>
+          ))}
+        </Stack>
+      </Flex>
+    </Box>
+  );
+};
+
+/* TopBar with cross, progress, heart */
 const TopBar = ({ progress, onExit }) => (
-    <Box p="md" style={{ maxWidth: 600, margin: "20px auto" }}>
-  <Flex align="center" gap="sm">
-    {/* Left: Cross icon */}
-    <ActionIcon variant="subtle" color="dark" onClick={onExit} style={{ flex: "0 0 auto" }}>
-      <IconX size={20} />
-    </ActionIcon>
+  <Box p="md" style={{ maxWidth: 600, margin: "20px auto" }}>
+    <Flex align="center" gap="sm">
+      <ActionIcon
+        variant="subtle"
+        color="dark"
+        onClick={onExit}
+        style={{ flex: "0 0 auto" }}
+      >
+        <IconX size={20} />
+      </ActionIcon>
 
-    {/* Center: Progress bar in a wrapper that grows */}
-    <Box style={{ flex: "1 1 auto" }}>
-      <Progress value={progress} />
-    </Box>
+      <Box style={{ flex: "1 1 auto" }}>
+        <Progress value={progress} />
+      </Box>
 
-    {/* Right: Heart icon, same size as cross */}
-    <Box style={{ flex: "0 0 auto" }}>
-      <Image
-        src={heart}
-        alt="heart"
-        width={20}
-        height={20}
-        style={{ objectFit: "contain", display: "block" }}
-      />
-    </Box>
-  </Flex>
-</Box>
-
-  
+      <Box style={{ flex: "0 0 auto" }}>
+        <Image
+          src={heart}
+          alt="heart"
+          width={20}
+          height={20}
+          style={{ objectFit: "contain", display: "block" }}
+        />
+      </Box>
+    </Flex>
+  </Box>
 );
 
-/* ✅ 3️⃣ Main LessonPage */
+/*  Main LessonPage */
 const LessonPage = () => {
   const navigate = useNavigate();
   const lessonId = useLanguageStore((state) => state.lesson);
@@ -115,6 +114,7 @@ const LessonPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [exitModalOpen, setExitModalOpen] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false); 
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -143,7 +143,10 @@ const LessonPage = () => {
   const currentQuestion = questions[currentIndex];
   const progress = (currentIndex / questions.length) * 100;
 
-  const handleAnswer = (answer) => setSelected(answer);
+  const handleAnswer = (answer) => {
+    if (!hasStarted) setHasStarted(true); 
+    setSelected(answer);
+  };
 
   const handleContinue = () => {
     const correct = currentQuestion.content.answer;
@@ -159,6 +162,14 @@ const LessonPage = () => {
     }
   };
 
+  const handleExit = () => {
+    if (hasStarted) {
+      setExitModalOpen(true);
+    } else {
+      navigate("/learn"); 
+    }
+  };
+
   if (loading) {
     return (
       <Center mt="xl">
@@ -170,11 +181,9 @@ const LessonPage = () => {
   if (!currentQuestion) return <Center>No questions found!</Center>;
 
   return (
-    <Box p="xl" style={{ maxWidth: 600, margin: "0 auto" }}>
-    
-      <TopBar progress={progress} onExit={() => setExitModalOpen(true)} />
+    <Container size="sm" p="md">
+      <TopBar progress={progress} onExit={handleExit} />
 
-      {/*Question */}
       <MultipleChoice
         content={currentQuestion.content}
         onAnswer={handleAnswer}
@@ -182,7 +191,6 @@ const LessonPage = () => {
         withLetter={currentQuestion.type === "multiple-choice-letter"}
       />
 
-      {/*Continue */}
       <Button
         mt="xl"
         disabled={!selected}
@@ -192,24 +200,62 @@ const LessonPage = () => {
         {currentIndex === questions.length - 1 ? "Finish" : "Continue"}
       </Button>
 
-      {/*Exit modal */}
       <Modal
         opened={exitModalOpen}
         onClose={() => setExitModalOpen(false)}
-        title="Exit Lesson?"
+        withCloseButton={false}
         centered
+        radius="md"
+        padding="xl"
+        size="md"
+        styles={{
+          body: { textAlign: "center" },
+        }}
       >
-        <Text>Are you sure you want to exit? Progress won't be saved.</Text>
-        <Group position="apart" mt="md">
-          <Button variant="default" onClick={() => setExitModalOpen(false)}>
-            Cancel
+
+        <Image
+          src={bird6}  
+          alt="Sad bird"
+          width={20}
+          height={120} 
+          fit="contain"
+          style={{ margin: "0 auto" }}
+          mb="md"
+        />
+
+        <Text color="black" mb="xl" style={{ fontSize: 25, fontWeight: 500 }}>
+          Wait, don’t go! You’ll lose your progress if you quit now.
+        </Text>
+
+        <Stack align="center" spacing="md">
+          <Button
+            variant="filled"   
+            color="blue"      
+            radius="md"        
+            px="lg"            
+            py="sm"           
+            onClick={() => setExitModalOpen(false)}
+            fullWidth
+          >
+            KEEP LEARNING
           </Button>
-          <Button color="red" onClick={() => navigate("/sections")}>
-            Exit
+
+
+          <Button
+            variant="subtle"  
+            color="red"
+            onClick={() => navigate("/learn")}
+            fullWidth
+          >
+            END LESSON
           </Button>
-        </Group>
+
+        </Stack>
+
       </Modal>
-    </Box>
+
+
+    </Container>
   );
 };
 

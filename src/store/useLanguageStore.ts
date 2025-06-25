@@ -1,13 +1,34 @@
 import { create } from 'zustand';
 
+interface Lesson {
+  id: string;
+  name: string;
+}
+
+interface Unit {
+  id: string;
+  name: string;
+  themeColor?: string;
+  characterImage?: string;
+  lessons: Lesson[];
+}
+
+interface Section {
+  id: string;
+  name: string;
+  units: Unit[];
+}
+
 interface LanguageStore {
   language: string;
-  section: string | null;
-  unit: string | null;
+  section: Section | null;
+  units: Unit[];
+  activeUnitIndex: number;
   lesson: string | null;
   setLanguage: (lang: string) => void;
-  setSection: (section: string) => void;
-  setUnit: (unit: string) => void;
+  setSection: (section: Section) => void;
+  setUnits: (units: Unit[]) => void;
+  setActiveUnitIndex: (index: number) => void;
   setLesson: (lesson: string) => void;
   reset: () => void;
 }
@@ -15,7 +36,8 @@ interface LanguageStore {
 export const useLanguageStore = create<LanguageStore>((set) => ({
   language: localStorage.getItem('selectedLanguage') || 'English',
   section: null,
-  unit: null,
+  units: [],
+  activeUnitIndex: 0,
   lesson: null,
 
   setLanguage: (lang) => {
@@ -23,7 +45,9 @@ export const useLanguageStore = create<LanguageStore>((set) => ({
     set({ language: lang });
   },
   setSection: (section) => set({ section }),
-  setUnit: (unit) => set({ unit }),
+  setUnits: (units) => set({ units }),
+  setActiveUnitIndex: (index) => set({ activeUnitIndex: index }),
   setLesson: (lesson) => set({ lesson }),
-  reset: () => set({ section: null, unit: null, lesson: null }),
+  reset: () =>
+    set({ section: null, units: [], activeUnitIndex: 0, lesson: null }),
 }));

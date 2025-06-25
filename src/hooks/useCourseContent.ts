@@ -1,89 +1,59 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../assets/firebaseConfig';
 import { useLanguageStore } from '../store/useLanguageStore';
 
-interface Lesson {
-  id: string;
-  name: string;
-}
-
-interface Unit {
-  id: string;
-  name: string;
-  lessons: Lesson[];
-}
-
-interface Section {
-  id: string;
-  name: string;
-  units: Unit[];
-}
-
 export const useCourseContent = () => {
-  const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
-  const { language } = useLanguageStore();
-  console.log("Selected language:", language);
+  const [sections, setSections] = useState<any[]>([]); // holds the list of sections
+
+  const { language, setSection, setUnits } = useLanguageStore();
 
   useEffect(() => {
     const fetchContent = async () => {
       setLoading(true);
-      const sectionsRef = collection(db, `languages/${language}/sections`);
-      const sectionsSnap = await getDocs(sectionsRef);
 
-      const sectionData: Section[] = [];
+      try {
+        const sectionsRef = collection(db, `languages/${language}/sections`);
+        const sectionsSnap = await getDocs(sectionsRef);
 
-      for (const sectionDoc of sectionsSnap.docs) {
-        const sectionId = sectionDoc.id;
-        const sectionName = sectionDoc.data().name;
-        console.log("Sections snapshot:", sectionsSnap.docs.map(doc => ({ id: doc.id, data: doc.data() })));
+        if (sectionsSnap.empty) {
+          setSections([]); // return empty list
+          setLoading(false);
+          return;
+        }
 
+        const sectionList = sectionsSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        // Fetch units in section
+        setSections(sectionList);
+
+        const firstSection = sectionsSnap.docs[0];
+        const sectionId = firstSection.id;
+        const sectionName = firstSection.data().name;
+
+        setSection({ id: sectionId, name: sectionName });
+
         const unitsRef = collection(db, `languages/${language}/sections/${sectionId}/units`);
         const unitsSnap = await getDocs(unitsRef);
 
-        const units: Unit[] = [];
+        const units = unitsSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        for (const unitDoc of unitsSnap.docs) {
-          const unitId = unitDoc.id;
-          const unitName = unitDoc.data().name;
-          console.log(`Units for section ${sectionId}:`, unitsSnap.docs.map(doc => ({ id: doc.id, data: doc.data() })));
-
-
-
-          // Fetch lessons in unit
-          const lessonsRef = collection(db, `languages/${language}/sections/${sectionId}/units/${unitId}/lessons`);
-          const lessonsSnap = await getDocs(lessonsRef);
-
-          console.log(`Lessons for unit ${unitId}:`, lessonsSnap.docs.map(doc => ({ id: doc.id, data: doc.data() })));
-          const lessons: Lesson[] = lessonsSnap.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name,
-          }));
-
-          units.push({
-            id: unitId,
-            name: unitName,
-            lessons,
-          });
-        }
-
-        sectionData.push({
-          id: sectionId,
-          name: sectionName,
-          units,
-        });
+        setUnits(units);
+      } catch (error) {
+        console.error("Error fetching course content:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setSections(sectionData);
-      setLoading(false);
     };
 
     fetchContent();
-  }, [language]);
+  }, [language, setSection, setUnits]);
 
-  return { sections, loading };
+  return { loading, sections };
 };

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import hellobird from "../assets/hellobird.webp";
+import hellobird from "../assets/unitsimages/hellobird.webp";
 
 const Animation2 = () => {
     return (

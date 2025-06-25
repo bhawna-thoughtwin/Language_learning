@@ -1,1 +1,23 @@
 @import "tailwindcss";
+/* index.css or styles.css */
+/* index.css */
+:root {
+    --transition-speed: 0.3s;
+  }
+  
+  [data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+  }
+  
+  [data-theme="dark"] {
+    --bg-color: #1a1b1e;
+    --text-color: #ffffff;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+  }
+  
