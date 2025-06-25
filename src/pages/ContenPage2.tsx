@@ -37,7 +37,9 @@ const ContentPage2 = () => {
       <SectionHeader />
       {units.map((unit, index) => (
         <UnitBlock key={unit.id} unit={unit} index={index} />
+       
       ))}
+      
     </Container>
   );
 };
