@@ -96,7 +96,7 @@ const LanguageLevelPage = () => {
                                 transition: "all 0.2s",
                             }}
                             onClick={() => setSelected(index)}
-                        >
+                        >  
                             {level}
                         </Paper>
                         {index === levels.length - 1 && <Divider my="md" />}

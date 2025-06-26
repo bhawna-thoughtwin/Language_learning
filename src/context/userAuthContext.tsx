@@ -12,10 +12,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from "firebase/auth";
-import { auth } from "../assets/firebaseConfig";
+import { auth } from "../services/firebaseConfig";
 
 
-// 1) Define context type
+//Define context type
 interface AuthContextType {
   currentUser: User | null;
   signUp: (email: string, password: string) => Promise<void>;
@@ -24,10 +24,10 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-// 2) Create context
+//Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// 3) Provider
+//Provider
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 

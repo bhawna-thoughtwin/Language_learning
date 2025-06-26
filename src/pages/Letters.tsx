@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../assets/firebaseConfig";
+import { db } from "../services/firebaseConfig";
 import { Box, Title, Grid, Button, Loader, Center } from "@mantine/core";
 import { doc, getDoc } from "firebase/firestore";
 

@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Container,
+  Flex,
   Loader,
   Title,
 } from "@mantine/core";
@@ -10,6 +11,7 @@ import { useCourseContent } from "../hooks/useCourseContent";
 import { useLanguageStore } from "../store/useLanguageStore";
 import SectionHeader from "../components/SectionHeader";
 import UnitBlock from "../components/UnitBloxk";
+import CardGroup from "../components/CardGroup";
 
 const ContentPage2 = () => {
   const { sections, loading } = useCourseContent();
@@ -33,14 +35,40 @@ const ContentPage2 = () => {
   }
 
   return (
-    <Container size="sm" mx={80} py="xl" style={{ width: 592 }}>
-      <SectionHeader />
-      {units.map((unit, index) => (
-        <UnitBlock key={unit.id} unit={unit} index={index} />
-       
-      ))}
-      
+    // <Container size="sm" mx={80} py="xl" style={{ width: 592 }}>
+
+    //   <SectionHeader />
+    //   {units.map((unit, index) => (
+    //     <UnitBlock key={unit.id} unit={unit} index={index} />
+
+    //   ))}
+
+    // </Container>
+    <Container size="lg" py="xl">
+      <Flex align="flex-start" gap="xl">
+        {/* Left: Units Section (scrolls normally) */}
+        <Box style={{ flex: 2 }}>
+          <SectionHeader />
+          {units.map((unit, index) => (
+            <UnitBlock key={unit.id} unit={unit} index={index} />
+          ))}
+        </Box>
+
+        {/* Right: Sticky CardGroup */}
+        <Box
+          style={{
+            flex: 1,
+            position: "sticky",
+            top: 80, // adjust based on your navbar/header height
+            paddingRight: 24,
+            alignSelf: "flex-start", // prevents stretching
+          }}
+        >
+          <CardGroup />
+        </Box>
+      </Flex>
     </Container>
+
   );
 };
 

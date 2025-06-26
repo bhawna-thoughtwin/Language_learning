@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../assets/firebaseConfig';
+import { db } from '../services/firebaseConfig';
 import { useLanguageStore } from '../store/useLanguageStore';
 
 export const useCourseContent = () => {

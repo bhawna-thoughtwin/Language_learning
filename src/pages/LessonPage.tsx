@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../assets/firebaseConfig";
+import { db } from "../services/firebaseConfig";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import {
   Box,
@@ -22,6 +22,8 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { IconVolume2, IconX } from "@tabler/icons-react";
 import heart from "../assets/heart.svg";
 import bird6 from "../assets/bird6.svg";
+import { Divider } from "@mantine/core";
+import giphy from "../assets/giphy.gif";
 
 /* Reusable MultipleChoice component */
 const MultipleChoice = ({ content, onAnswer, selected, withLetter }) => {
@@ -41,7 +43,7 @@ const MultipleChoice = ({ content, onAnswer, selected, withLetter }) => {
       <Flex gap="xl" align="flex-start">
         {withLetter && (
           <Flex direction="column" align="center">
-            <Title order={1} style={{ fontSize: 120 }}>
+            <Title order={1} style={{ fontSize: 120 ,fontWeight:300}}>
               {letter}
             </Title>
 
@@ -75,7 +77,8 @@ const MultipleChoice = ({ content, onAnswer, selected, withLetter }) => {
 };
 
 /* TopBar with cross, progress, heart */
-const TopBar = ({ progress, onExit }) => (
+/* TopBar with cross, progress, heart */
+const TopBar = ({ progress, onExit, hearts }) => (
   <Box p="md" style={{ maxWidth: 600, margin: "20px auto" }}>
     <Flex align="center" gap="sm">
       <ActionIcon
@@ -91,7 +94,7 @@ const TopBar = ({ progress, onExit }) => (
         <Progress value={progress} />
       </Box>
 
-      <Box style={{ flex: "0 0 auto" }}>
+      <Flex align="center" gap={4} style={{ flex: "0 0 auto" }}>
         <Image
           src={heart}
           alt="heart"
@@ -99,10 +102,12 @@ const TopBar = ({ progress, onExit }) => (
           height={20}
           style={{ objectFit: "contain", display: "block" }}
         />
-      </Box>
+        <span style={{ fontSize: 18, fontWeight: 600, color: "red" }}>{hearts}</span>
+      </Flex>
     </Flex>
   </Box>
 );
+
 
 /*  Main LessonPage */
 const LessonPage = () => {
@@ -114,8 +119,10 @@ const LessonPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [exitModalOpen, setExitModalOpen] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false); 
-
+  const [hasStarted, setHasStarted] = useState(false);
+  const [mistakeModalOpen, setMistakeModalOpen] = useState(false);
+  const [hearts, setHearts] = useState(5);
+  const [lessonCompleteModalOpen, setLessonCompleteModalOpen] = useState(false);
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -144,7 +151,7 @@ const LessonPage = () => {
   const progress = (currentIndex / questions.length) * 100;
 
   const handleAnswer = (answer) => {
-    if (!hasStarted) setHasStarted(true); 
+    if (!hasStarted) setHasStarted(true);
     setSelected(answer);
   };
 
@@ -155,18 +162,20 @@ const LessonPage = () => {
         setCurrentIndex((i) => i + 1);
         setSelected(null);
       } else {
-        navigate("/learn");
+        setLessonCompleteModalOpen(true);
       }
-    } else {
-      alert("Incorrect! Try again.");
+    }else {
+      setHearts((prev) => Math.max(prev - 1, 0));
+      setMistakeModalOpen(true); // Show modal on wrong answer
     }
   };
+  
 
   const handleExit = () => {
     if (hasStarted) {
       setExitModalOpen(true);
     } else {
-      navigate("/learn"); 
+      navigate("/learn");
     }
   };
 
@@ -181,81 +190,170 @@ const LessonPage = () => {
   if (!currentQuestion) return <Center>No questions found!</Center>;
 
   return (
-    <Container size="sm" p="md">
-      <TopBar progress={progress} onExit={handleExit} />
+   
 
-      <MultipleChoice
-        content={currentQuestion.content}
-        onAnswer={handleAnswer}
-        selected={selected}
-        withLetter={currentQuestion.type === "multiple-choice-letter"}
-      />
+<Container size="sm" p="md">
+  <TopBar progress={progress} onExit={handleExit}  hearts={hearts}  />
 
+  <MultipleChoice
+    content={currentQuestion.content}
+    onAnswer={handleAnswer}
+    selected={selected}
+    withLetter={currentQuestion.type === "multiple-choice-letter"}
+  />
+
+  {/* Horizontal line */}
+  <Divider my="lg" />
+
+
+
+
+
+  <Button
+    mt="xl"
+    disabled={!selected}
+    color="green"
+    onClick={handleContinue}
+    fullWidth
+    borderRadius="md"
+  >
+    {currentIndex === questions.length - 1 ? "Finish" : "Continue"}
+  </Button>
+
+  <Modal
+    opened={exitModalOpen}
+    onClose={() => setExitModalOpen(false)}
+    withCloseButton={false}
+    centered
+    radius="md"
+    padding="xl"
+    size="sm"
+    styles={{
+      body: { textAlign: "center" },
+    }}
+  >
+    <Image
+      src={bird6}
+      alt="Sad bird"
+      fit="contain"
+      style={{
+        width: "120px",
+        height: "170px",
+        margin: "0 auto",
+        marginBottom: "16px",
+      }}
+    />
+
+    <Text color="black" mb="xl" style={{ fontSize: 25, fontWeight: 500 }}>
+      Wait, don’t go! You’ll lose your progress if you quit now.
+    </Text>
+
+    <Stack align="center" spacing="md">
       <Button
-        mt="xl"
-        disabled={!selected}
-        onClick={handleContinue}
+        variant="filled"
+        color="blue"
+        radius="md"
+        px="lg"
+        py="sm"
+        onClick={() => setExitModalOpen(false)}
         fullWidth
       >
-        {currentIndex === questions.length - 1 ? "Finish" : "Continue"}
+        KEEP LEARNING
       </Button>
 
-      <Modal
-        opened={exitModalOpen}
-        onClose={() => setExitModalOpen(false)}
-        withCloseButton={false}
-        centered
-        radius="md"
-        padding="xl"
-        size="md"
-        styles={{
-          body: { textAlign: "center" },
-        }}
+      <Button
+        variant="subtle"
+        color="red"
+        onClick={() => navigate("/learn")}
+        fullWidth
       >
+        END LESSON
+      </Button>
+    </Stack>
+  </Modal>
+  <Modal
+  opened={mistakeModalOpen}
+  onClose={() => setMistakeModalOpen(false)}
+  withCloseButton={false}
+  centered
+  radius="md"
+  padding="xl"
+  size="sm"
+  styles={{
+    body: { textAlign: "center" },
+  }}
+>
+  <Image
+    src={heart}
+    alt="heart"
+    fit="contain"
+    style={{
+      width: "60px",
+      height: "60px",
+      margin: "0 auto",
+      marginBottom: "16px",
+    }}
+  />
 
-        <Image
-          src={bird6}  
-          alt="Sad bird"
-          width={20}
-          height={120} 
-          fit="contain"
-          style={{ margin: "0 auto" }}
-          mb="md"
-        />
+  <Text color="red" mb="md" style={{ fontSize: 20, fontWeight: 600 }}>
+    Oops! Each mistake costs 1 heart.
+  </Text>
 
-        <Text color="black" mb="xl" style={{ fontSize: 25, fontWeight: 500 }}>
-          Wait, don’t go! You’ll lose your progress if you quit now.
-        </Text>
+  <Button
+    variant="filled"
+    color="blue"
+    radius="md"
+    fullWidth
+    onClick={() => setMistakeModalOpen(false)}
+  >
+    KEEP GOING
+  </Button>
+</Modal>
+<Modal
+  opened={lessonCompleteModalOpen}
+  onClose={() => setLessonCompleteModalOpen(false)}
+  withCloseButton={false}
+  centered
+  radius="md"
+  padding="xl"
+  size="sm"
+  styles={{
+    body: { textAlign: "center" },
+  }}
+>
+  <Image
+    src={giphy}
+    alt="Bird"
+    fit="contain"
+    style={{
+      width: "170px",
+      height: "190px",
+      margin: "0 auto",
+      marginBottom: "16px",
+    }}
+  />
 
-        <Stack align="center" spacing="md">
-          <Button
-            variant="filled"   
-            color="blue"      
-            radius="md"        
-            px="lg"            
-            py="sm"           
-            onClick={() => setExitModalOpen(false)}
-            fullWidth
-          >
-            KEEP LEARNING
-          </Button>
+  <Text color="green" mb="md" style={{ fontSize: 24, fontWeight: 600 }}>
+    🎉 Lesson Completed!
+  </Text>
+
+  <Text color="black" mb="xl" style={{ fontSize: 16 }}>
+    Great job finishing the lesson. Keep practicing to improve your skills.
+  </Text>
+
+  <Button
+    variant="filled"
+    color="green"
+    fullWidth
+    onClick={() => navigate("/learn")}
+  >
+    CONTINUE
+  </Button>
+</Modal>
 
 
-          <Button
-            variant="subtle"  
-            color="red"
-            onClick={() => navigate("/learn")}
-            fullWidth
-          >
-            END LESSON
-          </Button>
+</Container>
 
-        </Stack>
-
-      </Modal>
-
-
-    </Container>
   );
 };
 

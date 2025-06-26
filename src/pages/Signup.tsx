@@ -14,7 +14,7 @@ import { useNavigate ,useLocation} from 'react-router-dom';
 import { IconX } from '@tabler/icons-react';
 import { useAuth } from '../context/userAuthContext';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../assets/firebaseConfig';
+import { auth } from '../services/firebaseConfig';
 
 
 

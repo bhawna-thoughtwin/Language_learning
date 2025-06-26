@@ -17,9 +17,8 @@ import { IconArrowBack } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useCourseContent } from "../hooks/useCourseContent";
 import star from "../assets/star.svg";
-import troffi from "../assets/unitsimages/troffi.svg";
-import giftbox from "../assets/unitsimages/giftbox.svg";
-import whitestar from "../assets/unitsimages/whitestar.svg";
+
+
 import hellobird from "../assets/unitsimages/hellobird.webp";
 import { useLanguageStore } from "../store/useLanguageStore";
 import SectionHeader from "../components/SectionHeader";

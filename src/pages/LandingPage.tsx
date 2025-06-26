@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Box, Button, Flex, Title, Stack, Container } from '@mantine/core';
-import Header from '../layouts/Header';
+import Header from '../components/Header';
 import AnimatedLogo from '../animatedlogo/AnimatedLogo';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Animation2 from '../animatedlogo/Animation2';
+import AnimatedBirds from '../animatedlogo/AnimatedBirds';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const LandingPage = () => {
               flexDirection: 'column',
             }}
           >
+            <AnimatedBirds/>
             {/* <AnimatedLogo />
             <Animation2/> */}
           </Box>

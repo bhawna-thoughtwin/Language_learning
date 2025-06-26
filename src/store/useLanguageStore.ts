@@ -25,11 +25,14 @@ interface LanguageStore {
   units: Unit[];
   activeUnitIndex: number;
   lesson: string | null;
+  completedLessons: string[]; //  used to track completed lessons
+
   setLanguage: (lang: string) => void;
   setSection: (section: Section) => void;
   setUnits: (units: Unit[]) => void;
   setActiveUnitIndex: (index: number) => void;
   setLesson: (lesson: string) => void;
+  markLessonComplete: (lessonId: string) => void; // function to mark complete
   reset: () => void;
 }
 
@@ -39,6 +42,7 @@ export const useLanguageStore = create<LanguageStore>((set) => ({
   units: [],
   activeUnitIndex: 0,
   lesson: null,
+  completedLessons: [],
 
   setLanguage: (lang) => {
     localStorage.setItem('selectedLanguage', lang);
@@ -48,6 +52,18 @@ export const useLanguageStore = create<LanguageStore>((set) => ({
   setUnits: (units) => set({ units }),
   setActiveUnitIndex: (index) => set({ activeUnitIndex: index }),
   setLesson: (lesson) => set({ lesson }),
+
+  markLessonComplete: (lessonId) =>
+    set((state) => ({
+      completedLessons: Array.from(new Set([...state.completedLessons, lessonId])),
+    })),
+
   reset: () =>
-    set({ section: null, units: [], activeUnitIndex: 0, lesson: null }),
+    set({
+      section: null,
+      units: [],
+      activeUnitIndex: 0,
+      lesson: null,
+      completedLessons: [],
+    }),
 }));

@@ -9,7 +9,7 @@ import {
   Flex,
 } from "@mantine/core";
 import { useNavigate, useLocation } from "react-router-dom";
-import { auth } from "../assets/firebaseConfig";
+import { auth } from "../services/firebaseConfig";
 import { signOut } from "firebase/auth";
 
 
