@@ -1,58 +1,32 @@
+## Duolingo-Style Language Learning App
 
-# React + TypeScript + Vite
+A Duolingo-inspired web app built using **React**, **Mantine UI**, **Firebase**, and **Zustand**. It supports multi-language courses, lessons, animated UI, and progress tracking.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Language and section-based lesson structure
+-  Multi-step lessons (e.g. multiple-choice, audio, type)
+-  Zustand-powered global state (active unit, selected lesson, completed lessons)
+-  Firebase Firestore structured backend (`language/section/units` & `lessons`)
+-  Progress bar around animated star icons
+-  Sticky lesson info card on the right
+-  
 
-## Expanding the ESLint configuration
+---
+## folder struture
+src/
+│
+├── assets/ # Static images, gifs
+├── components/ # Reusable UI components (cards, animated icons, etc.)
+├── context/ # Auth and Theme context providers
+├── pages/ # Page-level components (ContentPage, LessonPage, SettingPage, etc.)
+├── store/ # Zustand global state stores
+├── hooks/ # Custom hooks (e.g. useCourseContent)
+├── i18n/ # Translation files (i18next for language support)
+├── App.tsx # Main app routes
+├── main.tsx # Entry point
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-
-# Language_learning
-
-git checkout -b your-branch-name

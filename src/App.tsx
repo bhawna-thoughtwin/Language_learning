@@ -27,17 +27,9 @@ import ContentPage2 from "./pages/ContenPage2";
 
 const App = () => {
 
-  // const colorScheme = useThemeStore((s) => s.colorScheme);
 
   return (
-    // <MantineProvider
-    //   withGlobalStyles
-    //   withNormalizeCSS
-    //   theme={{
-    //     colorScheme: colorScheme,
-    //     fontFamily: "DIN Round, sans-serif",
-    //   }}
-    // >
+  
       <Router>
         <Routes>
           {/* No sidebar */}

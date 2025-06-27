@@ -53,11 +53,21 @@ export const useLanguageStore = create<LanguageStore>((set) => ({
   setActiveUnitIndex: (index) => set({ activeUnitIndex: index }),
   setLesson: (lesson) => set({ lesson }),
 
-  markLessonComplete: (lessonId) =>
+  // markLessonComplete: (lessonId) =>
+    
+  //   set((state) => ({
+      
+  //     completedLessons: Array.from(new Set([...state.completedLessons, lessonId])),
+  //   })),
+    
+  markLessonComplete: (lessonId) => {
+    console.log("Marked complete:", lessonId);
     set((state) => ({
       completedLessons: Array.from(new Set([...state.completedLessons, lessonId])),
-    })),
-
+    }));
+  },
+  
+    
   reset: () =>
     set({
       section: null,

@@ -26,8 +26,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <ThemeProvider>
       <ThemeInitializer /> 
+      
         <App />
       </ThemeProvider>
+
+      
     </AuthProvider>
   
 );

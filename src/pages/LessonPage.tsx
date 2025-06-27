@@ -76,8 +76,7 @@ const MultipleChoice = ({ content, onAnswer, selected, withLetter }) => {
   );
 };
 
-/* TopBar with cross, progress, heart */
-/* TopBar with cross, progress, heart */
+
 const TopBar = ({ progress, onExit, hearts }) => (
   <Box p="md" style={{ maxWidth: 600, margin: "20px auto" }}>
     <Flex align="center" gap="sm">
@@ -166,7 +165,7 @@ const LessonPage = () => {
       }
     }else {
       setHearts((prev) => Math.max(prev - 1, 0));
-      setMistakeModalOpen(true); // Show modal on wrong answer
+      setMistakeModalOpen(true); 
     }
   };
   
@@ -204,12 +203,7 @@ const LessonPage = () => {
 
   {/* Horizontal line */}
   <Divider my="lg" />
-
-
-
-
-
-  <Button
+   <Button
     mt="xl"
     disabled={!selected}
     color="green"
@@ -334,7 +328,7 @@ const LessonPage = () => {
   />
 
   <Text color="green" mb="md" style={{ fontSize: 24, fontWeight: 600 }}>
-    🎉 Lesson Completed!
+    Lesson Completed!
   </Text>
 
   <Text color="black" mb="xl" style={{ fontSize: 16 }}>

@@ -10,7 +10,7 @@ export const useThemeStore = create<ThemeState>((set) => ({
   colorScheme: (localStorage.getItem("theme") as "light" | "dark") || "light",
   setColorScheme: (scheme) => {
     localStorage.setItem("theme", scheme);
-    document.documentElement.setAttribute("data-theme", scheme);
+  
     set({ colorScheme: scheme });
   },
 }));

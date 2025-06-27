@@ -237,8 +237,8 @@ const UnitBlock: React.FC<Props> = ({ unit, index }) => {
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "20px",
-                    position: "relative", // 🔑 needed for absolute positioning
+                    gap: "10px",
+                    position: "relative", //needed for absolute positioning
                 }}
             >
                 {/* Vertical stacked icons */}
