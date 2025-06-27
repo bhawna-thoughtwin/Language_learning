@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import {
     Box,
     Button,
-    Container,
     Title,
     Paper,
     Divider,
-    Image,
+    Container,
 } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import bird from "../assets/bird.svg";
@@ -24,73 +23,87 @@ const LanguageLevelPage = () => {
         "I can talk about various topics",
         "I can discuss most topics in detail",
     ];
-    // const images=[
-    //     "/assests/network0.svg",
-    //     "/assests/network1.svg",
-    //     "/assests/network2.svg",
-    //     "/assests/network3.svg",
-    //     "/assests/network4.svg",
-
-    // ]
 
     const handleContinue = () => {
         navigate("/learn");
     };
 
     return (
-        <Container size="sm" style={{ textAlign: "center", marginTop: 10 }}>
-            {/* Title & Owl */}
+        <Box
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+            }}
+        >
+            {/* 🔹 Top: Owl + Title */}
             <Box
                 style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 20,
-                    flexWrap: "wrap",
+                    padding: "20px 16px 0",
+                    textAlign: "center",
                 }}
             >
-                <img src={bird} alt="Owl" width={80} />
-                <Title
-                    order={4}
-                    mt="md"
+                <Box
                     style={{
-                        border: "1px solid rgb(192, 189, 187)",
-                        position: "relative",
-                        display: "inline-block",
-                        borderRadius: "8px",
-                        padding: "12px 16px 12px 40px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: 16,
                     }}
                 >
-                    <img
-                        src={arrow}
-                        alt="Arrow"
+                    <img src={bird} alt="Owl" width={60} />
+                    <Title
+                        order={4}
                         style={{
-                            position: "absolute",
-                            left: "-20px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            width: "30px",
-                            height: "30px",
+                            border: "1px solid rgb(192, 189, 187)",
+                            borderRadius: "8px",
+                            padding: "12px 16px 12px 40px",
+                            position: "relative",
+                            fontSize: "1rem",
+                            lineHeight: 1.4,
+                            maxWidth: "100%",
                         }}
-                    />
-                    How much {language} do you know?
-                </Title>
+                    >
+                        <img
+                            src={arrow}
+                            alt="Arrow"
+                            style={{
+                                position: "absolute",
+                                left: "-20px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                width: "30px",
+                                height: "30px",
+                            }}
+                        />
+                        How much {language} do you know?
+                    </Title>
+                </Box>
             </Box>
 
-            {/* Level options */}
-
-
-            <Box mt="xl" mb="xl">
+            {/* 🔹 Middle: Scrollable Level Cards */}
+            <Box
+                style={{
+                    flex: 1,
+                    overflowY: "auto",
+                    padding: "20px 16px",
+                }}
+            >
                 {levels.map((level, index) => (
                     <React.Fragment key={index}>
                         <Paper
                             withBorder
-                            p="md"
-                            my="sm"
                             style={{
+                                width: "100%",
+                                maxWidth: 448,
+                                height: 56,
+                                margin: "8px auto",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                                 cursor: "pointer",
-                                backgroundColor: selected === index ? "#e6f7ff" : "white",
+                                backgroundColor: selected === index ? "#e6f7ff" : "#fff",
                                 borderColor: selected === index ? "#1c7ed6" : "#ddd",
                                 borderRadius: "10px",
                                 transition: "all 0.2s",
@@ -104,32 +117,28 @@ const LanguageLevelPage = () => {
                 ))}
             </Box>
 
-
-            {/* Continue button */}
+            {/* 🔹 Bottom: Continue Button */}
             <Box
                 style={{
-                    position: "fixed",
-                    bottom: "20px",
-                    left: "20px",
-                    right: "20px",
-                    maxWidth: "400px",
-                    margin: "0 auto",
-                    zIndex: 1000,
+                    padding: "16px",
+                  
+                    marginBottom: "180px",
+                    display: "flex",              // ⬅️ Add this
+                    justifyContent: "flex-end",   // ⬅️ Aligns button to right
                 }}
             >
                 <Button
-                    size="md"
+
                     radius="md"
+                    size="md"
+                    onClick={handleContinue}
                     variant="gradient"
                     gradient={{ from: "green", to: "lime", deg: 90 }}
-                    onClick={handleContinue}
-                    fullWidth
                 >
                     Continue
                 </Button>
             </Box>
-
-        </Container>
+        </Box>
     );
 };
 

@@ -9,7 +9,7 @@ import {
   Flex,
 } from "@mantine/core";
 import { useNavigate, useLocation } from "react-router-dom";
-import { auth } from "../assets/firebaseConfig";
+import { auth } from "../services/firebaseConfig";
 import { signOut } from "firebase/auth";
 
 
@@ -56,9 +56,6 @@ const Sidebar = () => {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 20,
-  
-
-     
       }}
     >
       
@@ -72,7 +69,7 @@ const Sidebar = () => {
       />
 
 
-      <Stack spacing="md" style={{ width: "80%", gap: "20px" }}>
+      <Stack spacing="sm" style={{ width: "80%",gap:"20px"}}>
         {links.map((link) => (
           <NavLink
             key={link.label}
@@ -83,7 +80,7 @@ const Sidebar = () => {
                   alignItems: "center",
                   border: active === link.label ? "2px solid rgb(149, 209, 233)" : "none",
                   borderRadius: "8px",
-                  padding: "8px 12px",
+                  padding: "6px 12px",
                   gap: "12px",
                 }}
               >
@@ -91,15 +88,17 @@ const Sidebar = () => {
                 <Box style={{ flexShrink: 0 }}>
                   <MantineImage
                     src={link.image}
-                    width={28}
-                    height={28}
-                    fit="contain"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      objectFit: "contain",
+                    }}
                   />
                 </Box>
 
                 {/* RIGHT: Text */}
                 <Box style={{ flexGrow: 1 }}>
-                  <Text size="md" color="#757575" fw={600} style={{ lineHeight: 1 ,  color: active === link.label ? "rgb(66, 190, 240)" : "#757575",}}>
+                  <Text size="md" color="#757575" fw={600} style={{lineHeight: 1, color: active === link.label ? "rgb(66, 190, 240)" : "#757575",}}>
                     {link.label}
                   </Text>
                 </Box>
@@ -142,9 +141,11 @@ const Sidebar = () => {
                   <Box style={{ flexShrink: 0 }}>
                     <MantineImage
                       src={moreIcon}
-                      width={28}
-                      height={28}
-                      fit="contain"
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        objectFit: "contain",
+                      }}
                     />
                   </Box>
 

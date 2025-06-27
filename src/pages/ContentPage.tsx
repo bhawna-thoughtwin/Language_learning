@@ -9,18 +9,22 @@ import {
   Stack,
   Paper,
   Popover,
-  Group, 
+  Group,
+  Card,
+  Text, 
 } from "@mantine/core";
 import { IconArrowBack } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useCourseContent } from "../hooks/useCourseContent";
 import star from "../assets/star.svg";
-import troffi from "../assets/troffi.svg";
-import giftbox from "../assets/giftbox.svg";
-import whitestar from "../assets/whitestar.svg";
-import hellobird from "../assets/hellobird.webp";
-import { useLanguageStore } from "../store/useLanguageStore";
 
+
+import hellobird from "../assets/unitsimages/hellobird.webp";
+import { useLanguageStore } from "../store/useLanguageStore";
+import SectionHeader from "../components/SectionHeader";
+import { motion } from "framer-motion";
+import AnimatedImage from "../animatedlogo/ AnimatedImage";
+import GreenAnimationStar from "../animatedlogo/GreenAnimatioStar";
 
 const ContentPage = () => {
   const { sections, loading } = useCourseContent();
@@ -30,10 +34,10 @@ const ContentPage = () => {
   const setLesson = useLanguageStore((state) => state.setLesson);
  
 
-  const handleStart = () => {
-    setLesson("lesson-1"); 
-    navigate('/lesson');
-  };
+  // const handleStart = () => {
+  //   setLesson("lesson-1"); 
+  //   navigate('/lesson');
+  // };
  
   
 
@@ -44,70 +48,27 @@ const ContentPage = () => {
       </Container>
     );
   }
-  if (!sections) {
+  if (!sections || sections.length === 0) {
     return (
       <Container size="md" style={{ textAlign: "center", marginTop: "100px" }}>
         <Title>No section found</Title>
       </Container>
     );
   }
+  
 
   const section = sections[0];
 
   return (
     <>
-      <Container size="sm" py="xl">
-        <Paper
-          shadow="md"
-          p="lg"
-          radius="lg"
-          style={{
-            backgroundColor: "#e8f5e9",
-          }}
-        >
-
-      
-          <Group mb="md" style={{ cursor: "pointer" }} onClick={() => navigate("/sections")}>
-            <ActionIcon
-              variant="subtle"
-              size="lg"
-            >
-              <IconArrowBack size={24} />
-            </ActionIcon>
-            <Title order={5} style={{ marginLeft: "4px", color: "#4caf50" }}>
-              {section.type}
-            </Title>
-          </Group>
-
-          {/* Section Name */}
-          {/* <Title order={3} mb="md" style={{ color: "#4caf50" }}>
-            {section.name}
-          </Title> */}
-
-          {/* Lessons */}
-          {/* <Stack spacing="md">
-            {section.units.flatMap((unit) =>
-              unit.lessons.map((lesson) => (
-                <Button
-                  key={lesson.id}
-                  variant="filled"
-                  color="green"
-                  radius="md"
-                  size="md"
-                  fullWidth
-                  onClick={() => navigate(`/lesson/${lesson.id}`)}
-                >
-                  {lesson.name}
-                </Button>
-              ))
-            )}
-          </Stack> */}
-        </Paper>
-      </Container>
-      <Container size="sm" py="xl">
-        <Stack spacing="md" direction="row">
+    <Container size="sm"   mx={80} py="xl"  style={{
+    width: 592,
+    height: 533,
+  }}>
+    <SectionHeader/>
+        <Stack spacing="md" mt={20} direction="row">
           {/* First image with background */}
-          <Popover
+          {/* <Popover
             opened={opened}
             onChange={setOpened}
             position="bottom"
@@ -151,10 +112,11 @@ const ContentPage = () => {
                 Start
               </Button>
             </Popover.Dropdown>
-          </Popover>
+          </Popover> */}
+          <GreenAnimationStar/>
 
           {/* Second image */}
-          <Box
+          {/* <Box
             style={{
               width: 80,
               height: 80,
@@ -176,14 +138,18 @@ const ContentPage = () => {
                 borderRadius: '50%',
               }}
             />
+          </Box> */}
+          <Box>
+            <AnimatedImage/>
           </Box>
 
           {/* Third image with bird */}
           <Box style={{ position: 'relative', marginLeft: '120px' }}>
+      
             <Box
               style={{
-                width: 80,
-                height: 80,
+                width: 70,
+                height: 70,
                 borderRadius: '50%',
                 backgroundColor: '#f0f0f0',
                 display: 'flex',
@@ -192,6 +158,7 @@ const ContentPage = () => {
                 position: 'relative',
               }}
             >
+              {/* <AnimatedImage/> */}
               <img
                 src={star}
                 alt="Star"
@@ -267,6 +234,36 @@ const ContentPage = () => {
             />
           </Box>
         </Stack>
+        <Box
+  style={{
+    position: "absolute",
+    top: "50%",
+    right: 0,
+    transform: "translateY(-50%)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    width: 368,   // ✅ fixed width
+    height: 717,  // ✅ fixed height
+  }}
+>
+  <Card shadow="md" padding="md" radius="md" withBorder style={{ width: "100%" }}>
+    <Text>Card 1</Text>
+    <Button size="xs" mt="xs">Action</Button>
+  </Card>
+
+  <Card shadow="md" padding="md" radius="md" withBorder style={{ width: "100%" }}>
+    <Text>Card 2</Text>
+    <Button size="xs" mt="xs">Action</Button>
+  </Card>
+
+  <Card shadow="md" padding="md" radius="md" withBorder style={{ width: "100%" }}>
+    <Text>Card 3</Text>
+    <Button size="xs" mt="xs">Action</Button>
+  </Card>
+</Box>
+
+      
       </Container>
     </>
   );

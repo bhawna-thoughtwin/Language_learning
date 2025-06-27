@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
-import { useTheme } from "./context/ThemeContext";
+
 
 // your pages
 import LandingPage from "./pages/LandingPage";
@@ -16,25 +16,20 @@ import Letters from "./pages/Letters";
 import LeaderBoard from "./pages/LeaderBoard";
 import ContentPage from "./pages/ContentPage";
 
-
+import { useThemeStore } from './store/useThemeStore';
 import Profile from "./pages/Profile";
 import Setting from "./pages/Setting";
 import SectionsPage from "./pages/SectionPage";
 import LessonPage from "./pages/LessonPage";
+import ContentPage2 from "./pages/ContenPage2";
+
+
 
 const App = () => {
 
-  const { theme } = useTheme();
 
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{
-        colorScheme: theme,
-        fontFamily: "DIN Round, sans-serif",
-      }}
-    >
+  
       <Router>
         <Routes>
           {/* No sidebar */}
@@ -47,7 +42,7 @@ const App = () => {
 
           {/* Sidebar layout */}
           <Route element={<MainLayout />}>
-            <Route path="/learn" element={<ContentPage />} />
+            <Route path="/learn" element={<ContentPage2 />} />
            
             <Route path="/profile" element={<Profile />} />
             <Route path="/letters" element={<Letters />} />
@@ -59,7 +54,7 @@ const App = () => {
     
         </Routes>
       </Router>
-    </MantineProvider>
+
   );
 };
 

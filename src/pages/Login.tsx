@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { IconX } from "@tabler/icons-react";
-import { auth } from "../assets/firebaseConfig";
+import { auth } from "../services/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {

@@ -16,7 +16,16 @@
       "title":"Welcome to Duolingo!",
       "title2":"You selected:"
 
-    }
+    },
+    
+      "levels": {
+        "line1": "I’m new to ${language}",
+        "line2": "I know some common words",
+        "line3": "I can have basic conversations",
+        "line4": "I can talk about various topics",
+        "line5": "I can discuss most topics in detail"
+      }
+    
     
   }
   

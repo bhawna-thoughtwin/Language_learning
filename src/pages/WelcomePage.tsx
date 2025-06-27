@@ -4,7 +4,7 @@ import { ActionIcon, Box, Button, Container, Modal, Title, Stack, rem } from "@m
 import { motion } from "framer-motion";
 import { IconArrowLeft } from "@tabler/icons-react";
 import LanguageLevelPage from "./LanguageLevelPage";
-import hellobird from "../assets/hellobird.webp";
+import hellobird from "../assets/unitsimages/hellobird.webp";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { t } from "i18next";
 
