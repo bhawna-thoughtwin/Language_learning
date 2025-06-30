@@ -1,3 +1,19 @@
+## Getting Started
+
+1. Clone the repo:
+git clone https://github.com/yourusername/yourrepo.git
+cd yourrepo
+
+2. npm install
+
+
+3. rm -rf node_modules
+4. npm install
+
+
+
+
+
 ## Duolingo-Style Language Learning App
 
 A Duolingo-inspired web app built using **React**, **Mantine UI**, **Firebase**, and **Zustand**. It supports multi-language courses, lessons, animated UI, and progress tracking.
